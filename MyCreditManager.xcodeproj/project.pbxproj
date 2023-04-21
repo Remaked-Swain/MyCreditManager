@@ -9,8 +9,8 @@
 /* Begin PBXBuildFile section */
 		04C310E129F1777600721D73 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C310E029F1777600721D73 /* main.swift */; };
 		04C310E929F17AB200721D73 /* Core.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C310E829F17AB200721D73 /* Core.swift */; };
-		04C310FA29F24C9E00721D73 /* ScoreConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C310F929F24C9E00721D73 /* ScoreConverter.swift */; };
 		04C310FC29F2529200721D73 /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C310FB29F2529200721D73 /* Double.swift */; };
+		04C310FE29F26A4C00721D73 /* ScoreConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C310FD29F26A4C00721D73 /* ScoreConverter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -29,8 +29,8 @@
 		04C310DD29F1777600721D73 /* MyCreditManager */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MyCreditManager; sourceTree = BUILT_PRODUCTS_DIR; };
 		04C310E029F1777600721D73 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		04C310E829F17AB200721D73 /* Core.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core.swift; sourceTree = "<group>"; };
-		04C310F929F24C9E00721D73 /* ScoreConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreConverter.swift; sourceTree = "<group>"; };
 		04C310FB29F2529200721D73 /* Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
+		04C310FD29F26A4C00721D73 /* ScoreConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreConverter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,7 +65,7 @@
 			children = (
 				04C310E029F1777600721D73 /* main.swift */,
 				04C310E729F17A9400721D73 /* Core */,
-				04C310F829F24C8200721D73 /* Utility */,
+				04C310F829F24C8200721D73 /* Extension */,
 			);
 			path = MyCreditManager;
 			sourceTree = "<group>";
@@ -74,17 +74,25 @@
 			isa = PBXGroup;
 			children = (
 				04C310E829F17AB200721D73 /* Core.swift */,
+				04C3110029F26A6A00721D73 /* Utilities */,
 			);
 			path = Core;
 			sourceTree = "<group>";
 		};
-		04C310F829F24C8200721D73 /* Utility */ = {
+		04C310F829F24C8200721D73 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				04C310F929F24C9E00721D73 /* ScoreConverter.swift */,
 				04C310FB29F2529200721D73 /* Double.swift */,
 			);
-			path = Utility;
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		04C3110029F26A6A00721D73 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				04C310FD29F26A4C00721D73 /* ScoreConverter.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -148,7 +156,7 @@
 				04C310E929F17AB200721D73 /* Core.swift in Sources */,
 				04C310E129F1777600721D73 /* main.swift in Sources */,
 				04C310FC29F2529200721D73 /* Double.swift in Sources */,
-				04C310FA29F24C9E00721D73 /* ScoreConverter.swift in Sources */,
+				04C310FE29F26A4C00721D73 /* ScoreConverter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

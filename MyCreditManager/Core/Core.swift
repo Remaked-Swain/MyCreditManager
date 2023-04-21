@@ -8,7 +8,7 @@
 import Foundation
 
 class Core {
-    // Module
+    // MARK: Properties
     private let scoreConverter = ScoreConverter()
     
     // 학생과 성적을 관리할 데이터베이스 역할의 변수
@@ -18,6 +18,25 @@ class Core {
         self.studentDict = [String:[String:String]]()
     }
     
+    // MARK: Methods
+    func run() {
+        while true {
+            switch getUserOrder() {
+            case "1": addStudent()
+            case "2": removeStudent()
+            case "3": adjustScore()
+            case "4": removeScore()
+            case "5": getScore()
+            case "X": exit();
+            case "check": check()
+            default: print("뭔가 입력이 잘못되었습니다. 1~5 사이의 숫자 혹은 X를 입력해주세요.")
+            }
+        }
+    }
+}
+
+extension Core {
+    // MARK: Interface Methods
     private func getUserOrder() -> String {
         print("원하는 기능을 입력해주세요\n1: 학생추가, 2: 학생삭제, 3: 성적추가(변경), 4: 성적삭제, 5: 평점보기, X: 종료")
         guard let order = readLine() else { return "" }
@@ -67,9 +86,8 @@ class Core {
             print("입력이 잘못되었습니다. 다시 확인해주세요.")
         } else {
             let name = input[0]; let subject = input[1]; let grade = input[2]
-            
             if self.studentDict.keys.contains(name) {
-                self.studentDict[name]?.updateValue(grade, forKey: subject)
+                self.studentDict[name] = [subject:grade]
                 print("\(name) 학생의 \(subject) 과목이 \(grade)로 추가(변경)되었습니다.")
             } else {
                 print("입력이 잘못되었습니다. 다시 확인해주세요.")
@@ -87,9 +105,13 @@ class Core {
         } else {
             let name = input[0]; let subject = input[1]
             
-            if self.studentDict.keys.contains(name) {
-                self.studentDict.removeValue(forKey: subject)
-                print("\(name) 학생의 \(subject) 과목의 성적이 삭제되었습니다.")
+            if self.studentDict.keys.contains(name), let item = self.studentDict[name] {
+                if item.keys.contains(subject) {
+                    self.studentDict[name]?[subject] = nil
+                    print("\(name) 학생의 \(subject) 과목의 성적이 삭제되었습니다.")
+                } else {
+                    print("\(name) 학생의 \(subject) 과목의 성적은 존재하지 않습니다.")
+                }
             } else {
                 print("\(name) 학생을 찾지 못했습니다.")
             }
@@ -110,7 +132,11 @@ class Core {
                         print("\(item.key): \(item.value)")
                     }
                     
-                    print("평점 : \((list.values.map {scoreConverter.getScore($0)}.reduce(0, +) / Double(list.count)).asStringWith2Decimals())")
+                    if list.isEmpty {
+                        print("평점을 구할 과목과 성적이 없습니다.")
+                    } else {
+                        print("평점 : \((list.values.map {scoreConverter.convertGradeToScore($0)}.reduce(0, +) / Double(list.count)).asStringWith2Decimals())")
+                    }
                 }
             } else {
                 print("\(name) 학생을 찾지 못했습니다.")
@@ -120,6 +146,7 @@ class Core {
     
     private func exit() {
         print("프로그램을 종료합니다...")
+        Darwin.exit(EXIT_SUCCESS)
     }
     
     private func check() {
@@ -130,21 +157,6 @@ class Core {
         } else {
             for item in self.studentDict {
                 print(item)
-            }
-        }
-    }
-    
-    func run() {
-        while true {
-            switch getUserOrder() {
-            case "1": addStudent()
-            case "2": removeStudent()
-            case "3": adjustScore()
-            case "4": removeScore()
-            case "5": getScore()
-            case "X": exit(); Darwin.exit(EXIT_SUCCESS)
-            case "check": check()
-            default: print("뭔가 입력이 잘못되었습니다. 1~5 사이의 숫자 혹은 X를 입력해주세요.")
             }
         }
     }
