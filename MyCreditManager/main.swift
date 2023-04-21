@@ -7,8 +7,4 @@
 
 import Foundation
 
-func main() {
-    Core()
-}
-
-main()
+Core().run()
