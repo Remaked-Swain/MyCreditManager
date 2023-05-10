@@ -10,6 +10,7 @@ import Foundation
 class Core {
     // MARK: Properties
     private let scoreConverter = ScoreConverter()
+    private let script = InterfaceScript.self
     
     // 학생과 성적을 관리할 데이터베이스 역할의 변수
     private var studentDict: [String:[String:String]]
@@ -28,8 +29,7 @@ class Core {
             case "4": removeScore()
             case "5": getStatusScore()
             case "X": exit();
-            case "check": check()
-            default: print("뭔가 입력이 잘못되었습니다. 1~5 사이의 숫자 혹은 X를 입력해주세요.")
+            default: print(script.WrongInput.wrongMenuSelected.debugDescription)
             }
         }
     }
@@ -38,13 +38,13 @@ class Core {
 extension Core {
     // MARK: Interface Methods
     private func getUserOrder() -> String {
-        print("원하는 기능을 입력해주세요\n1: 학생추가, 2: 학생삭제, 3: 성적추가(변경), 4: 성적삭제, 5: 평점보기, X: 종료")
+        print(script.Menu.selectMenu)
         guard let order = readLine() else { return "" }
         return order
     }
     
     private func addStudent() {
-        print("추가할 학생의 이름을 입력해주세요")
+        print(script.AddStudent.readLineStudentName)
         
         guard let name = readLine() else { return }
         
@@ -147,17 +147,5 @@ extension Core {
     private func exit() {
         print("프로그램을 종료합니다...")
         Darwin.exit(EXIT_SUCCESS)
-    }
-    
-    private func check() {
-        print("----- [CHECKING LOG] -----")
-        
-        if self.studentDict.isEmpty {
-            print("No Items in Database")
-        } else {
-            for item in self.studentDict {
-                print(item)
-            }
-        }
     }
 }
