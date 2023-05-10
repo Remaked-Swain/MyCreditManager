@@ -7,4 +7,5 @@
 
 import Foundation
 
-Core().run()
+Core()
+    .run()

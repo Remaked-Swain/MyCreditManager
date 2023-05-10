@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		049C03222A0B5AAA0048795D /* Subject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049C03212A0B5AAA0048795D /* Subject.swift */; };
+		049C03242A0B5B0F0048795D /* Grade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049C03232A0B5B0F0048795D /* Grade.swift */; };
+		049C03262A0B5C2E0048795D /* InterfaceScript.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049C03252A0B5C2E0048795D /* InterfaceScript.swift */; };
 		04C310E129F1777600721D73 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C310E029F1777600721D73 /* main.swift */; };
 		04C310E929F17AB200721D73 /* Core.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C310E829F17AB200721D73 /* Core.swift */; };
 		04C310FC29F2529200721D73 /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C310FB29F2529200721D73 /* Double.swift */; };
@@ -26,6 +29,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		049C03212A0B5AAA0048795D /* Subject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subject.swift; sourceTree = "<group>"; };
+		049C03232A0B5B0F0048795D /* Grade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grade.swift; sourceTree = "<group>"; };
+		049C03252A0B5C2E0048795D /* InterfaceScript.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceScript.swift; sourceTree = "<group>"; };
 		04C310DD29F1777600721D73 /* MyCreditManager */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MyCreditManager; sourceTree = BUILT_PRODUCTS_DIR; };
 		04C310E029F1777600721D73 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		04C310E829F17AB200721D73 /* Core.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core.swift; sourceTree = "<group>"; };
@@ -44,6 +50,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		049C03202A0B5A9A0048795D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				049C03212A0B5AAA0048795D /* Subject.swift */,
+				049C03232A0B5B0F0048795D /* Grade.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		04C310D429F1777600721D73 = {
 			isa = PBXGroup;
 			children = (
@@ -74,6 +89,7 @@
 			isa = PBXGroup;
 			children = (
 				04C310E829F17AB200721D73 /* Core.swift */,
+				049C03202A0B5A9A0048795D /* Model */,
 				04C3110029F26A6A00721D73 /* Utilities */,
 			);
 			path = Core;
@@ -91,6 +107,7 @@
 			isa = PBXGroup;
 			children = (
 				04C310FD29F26A4C00721D73 /* ScoreConverter.swift */,
+				049C03252A0B5C2E0048795D /* InterfaceScript.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -156,6 +173,9 @@
 				04C310E929F17AB200721D73 /* Core.swift in Sources */,
 				04C310E129F1777600721D73 /* main.swift in Sources */,
 				04C310FC29F2529200721D73 /* Double.swift in Sources */,
+				049C03242A0B5B0F0048795D /* Grade.swift in Sources */,
+				049C03222A0B5AAA0048795D /* Subject.swift in Sources */,
+				049C03262A0B5C2E0048795D /* InterfaceScript.swift in Sources */,
 				04C310FE29F26A4C00721D73 /* ScoreConverter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

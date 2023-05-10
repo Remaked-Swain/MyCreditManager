@@ -26,7 +26,7 @@ class Core {
             case "2": removeStudent()
             case "3": adjustScore()
             case "4": removeScore()
-            case "5": getScore()
+            case "5": getStatusScore()
             case "X": exit();
             case "check": check()
             default: print("뭔가 입력이 잘못되었습니다. 1~5 사이의 숫자 혹은 X를 입력해주세요.")
@@ -118,7 +118,7 @@ extension Core {
         }
     }
     
-    private func getScore() {
+    private func getStatusScore() {
         print("평점을 알고싶은 학생의 이름을 입력해주세요")
         
         guard let name = readLine() else { return }
