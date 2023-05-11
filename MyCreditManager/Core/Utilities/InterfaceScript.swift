@@ -22,7 +22,7 @@ import Foundation
         }
     }
     
-    @frozen enum WrongInput: Error, CustomDebugStringConvertible {
+    @frozen enum Failure: Error, CustomDebugStringConvertible {
         case wrongMenuSelected
         case wrongInput
         case studentNotExist(name: String)
@@ -92,7 +92,7 @@ import Foundation
     
     @frozen enum RemoveScore {
         case readLineScore
-        case removeScoreSuccess(name: String, subject: [String:String])
+        case removeScoreSuccess(name: String, subject: String)
         
         var description: String {
             switch self {

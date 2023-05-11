@@ -9,7 +9,7 @@ import Foundation
 
 class Core {
     // MARK: Properties
-    private let scoreConverter = ScoreConverter()
+    private let converter = GradeConverter()
     private let script = InterfaceScript.self
     
     // 학생과 성적을 관리할 데이터베이스 역할의 변수
@@ -23,13 +23,40 @@ class Core {
     func run() {
         while true {
             switch getUserOrder() {
-            case "1": addStudent()
-            case "2": removeStudent()
-            case "3": adjustScore()
-            case "4": removeScore()
-            case "5": getStatusScore()
-            case "X": exit();
-            default: print(script.WrongInput.wrongMenuSelected.debugDescription)
+            case "1":
+                do {
+                    try addStudent()
+                } catch {
+                    print(error)
+                }
+            case "2":
+                do {
+                    try removeStudent()
+                } catch {
+                    print(error)
+                }
+            case "3":
+                do {
+                    try adjustScore()
+                } catch {
+                    print(error)
+                }
+            case "4":
+                do {
+                    try removeScore()
+                } catch {
+                    print(error)
+                }
+            case "5":
+                do {
+                    try getStatusScore()
+                } catch {
+                    print(error)
+                }
+            case "X":
+                exit();
+            default:
+                print(script.Failure.wrongMenuSelected.debugDescription)
             }
         }
     }
@@ -38,114 +65,103 @@ class Core {
 extension Core {
     // MARK: Interface Methods
     private func getUserOrder() -> String {
-        print(script.Menu.selectMenu)
+        print(script.Menu.selectMenu.description)
         guard let order = readLine() else { return "" }
         return order
     }
     
-    private func addStudent() {
-        print(script.AddStudent.readLineStudentName)
+    private func addStudent() throws {
+        print(script.AddStudent.readLineStudentName.description)
         
-        guard let name = readLine() else { return }
+        guard
+            let name = readLine(),
+            name.isEmpty == false
+        else { throw script.Failure.wrongInput }
         
-        if name.isEmpty {
-            print("입력이 잘못되었습니다. 다시 확인해주세요.")
+        if self.studentDict.keys.contains(name) {
+            print(script.AddStudent.duplicatedStudentName(name: name).description)
         } else {
-            if self.studentDict.keys.contains(name) {
-                print("\(name)은 이미 존재하는 학생입니다. 추가하지 않습니다.")
-            } else {
-                self.studentDict[name] = [String:String]()
-                print("\(name) 학생을 추가했습니다.")
-            }
+            self.studentDict[name] = [:]
+            print(script.AddStudent.addStudentSuccess(name: name).description)
         }
     }
     
-    private func removeStudent() {
-        print("삭제할 학생의 이름을 입력해주세요")
+    private func removeStudent() throws {
+        print(script.RemoveStudent.readLineStudentName.description)
         
-        guard let name = readLine() else { return }
+        guard
+            let name = readLine(),
+            name.isEmpty == false
+        else { throw script.Failure.wrongInput }
         
-        if name.isEmpty {
-            print("입력이 잘못되었습니다. 다시 확인해주세요.")
+        if self.studentDict.keys.contains(name) {
+            self.studentDict[name] = nil
+            print(script.RemoveStudent.removeStudentSuccess(name: name).description)
         } else {
-            if self.studentDict.keys.contains(name) {
-                self.studentDict[name] = nil
-                print("\(name) 학생을 삭제하였습니다.")
-            } else {
-                print("\(name) 학생을 찾지 못했습니다.")
-            }
+            print(script.Failure.studentNotExist(name: name))
         }
     }
     
-    private func adjustScore() {
-        print("성적을 추가할 학생의 이름, 과목 이름, 성적(A+, A, F 등)을 띄어쓰기로 구분하여 차례로 작성해주세요.\n입력예) Mickey Swift A+\n만약에 학생의 성적 중 해당 과목이 존재하면 기존 점수가 갱신됩니다.")
+    private func adjustScore() throws {
+        print(script.AdjustScore.readLineScore.description)
         
-        guard let input = readLine()?.components(separatedBy: " ") else { return }
+        // 입력데이터 무결성 검사
+        guard
+            let input = readLine()?.components(separatedBy: " "),
+            input.count == 3
+        else { throw script.Failure.wrongInput }
         
-        if input.count != 3 {
-            print("입력이 잘못되었습니다. 다시 확인해주세요.")
-        } else {
-            let name = input[0]; let subject = input[1]; let grade = input[2]
-            if self.studentDict.keys.contains(name) {
-                self.studentDict[name] = [subject:grade]
-                print("\(name) 학생의 \(subject) 과목이 \(grade)로 추가(변경)되었습니다.")
-            } else {
-                print("입력이 잘못되었습니다. 다시 확인해주세요.")
-            }
-        }
-    }
-    
-    private func removeScore() {
-        print("성적을 삭제할 학생의 이름, 과목 이름을 띄어쓰기로 구분하여 차례로 작성해주세요.")
-        
-        guard let input = readLine()?.components(separatedBy: " ") else { return }
-        
-        if input.count != 2 {
-            print("입력이 잘못되었습니다. 다시 확인해주세요.")
-        } else {
-            let name = input[0]; let subject = input[1]
+        let name = input[0]; let subject = input[1]; let grade = input[2]
             
-            if self.studentDict.keys.contains(name), let item = self.studentDict[name] {
-                if item.keys.contains(subject) {
-                    self.studentDict[name]?[subject] = nil
-                    print("\(name) 학생의 \(subject) 과목의 성적이 삭제되었습니다.")
-                } else {
-                    print("\(name) 학생의 \(subject) 과목의 성적은 존재하지 않습니다.")
-                }
-            } else {
-                print("\(name) 학생을 찾지 못했습니다.")
-            }
+        if self.studentDict.keys.contains(name) {
+            self.studentDict[name] = [subject:grade]
+            print(script.AdjustScore.adjustScoreSuccess(name: name, subject: subject, grade: grade).description)
+        } else {
+            print(script.Failure.wrongInput.debugDescription)
         }
     }
     
-    private func getStatusScore() {
-        print("평점을 알고싶은 학생의 이름을 입력해주세요")
+    private func removeScore() throws {
+        print(script.RemoveScore.readLineScore.description)
         
-        guard let name = readLine() else { return }
+        // 입력데이터 무결성 검사
+        guard
+            let input = readLine()?.components(separatedBy: " "),
+            input.count == 3
+        else { throw script.Failure.wrongInput }
         
-        if name.isEmpty {
-            print("입력이 잘못되었습니다. 다시 확인해주세요.")
-        } else {
-            if self.studentDict.keys.contains(name) {
-                if let list = self.studentDict[name] {
-                    for item in list {
-                        print("\(item.key): \(item.value)")
-                    }
-                    
-                    if list.isEmpty {
-                        print("평점을 구할 과목과 성적이 없습니다.")
-                    } else {
-                        print("평점 : \((list.values.map {scoreConverter.convertGradeToScore($0)}.reduce(0, +) / Double(list.count)).asStringWith2Decimals())")
-                    }
-                }
-            } else {
-                print("\(name) 학생을 찾지 못했습니다.")
-            }
+        let name = input[0]; let subject = input[1]
+        
+        guard self.studentDict.keys.contains(name) else { throw script.Failure.studentNotExist(name: name) }
+        guard self.studentDict[name]?.keys.contains(subject) == true else { throw script.Failure.subjectNotExist(name: name, subject: subject) }
+        
+        self.studentDict[name]?[subject] = nil
+        print(script.RemoveScore.removeScoreSuccess(name: name, subject: subject).description)
+    }
+    
+    private func getStatusScore() throws {
+        print(script.StatusScore.readLineStudentName.description)
+        
+        // 입력데이터 무결성 검사
+        guard
+            let name = readLine(),
+            name.isEmpty == false
+        else { throw script.Failure.wrongInput }
+        
+        guard self.studentDict.keys.contains(name) else { throw script.Failure.studentNotExist(name: name) }
+        guard let list = self.studentDict[name], list.isEmpty == false else { throw script.Failure.statusNotFound }
+        
+        let totalScore: String = (list.values.map {converter.stringToScore($0)}.reduce(0, +) / Double(list.count)).asStringWith2Decimals()
+        
+        for item in list {
+            print("\(item.key): \(item.value)")
         }
+        
+        print(script.StatusScore.statusScoreSuccess(totalScore: totalScore).description)
     }
     
     private func exit() {
-        print("프로그램을 종료합니다...")
+        print(script.Menu.exitProgram.description)
         Darwin.exit(EXIT_SUCCESS)
     }
 }

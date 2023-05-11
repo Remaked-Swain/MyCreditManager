@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct ScoreConverter {
-    func convertGradeToScore(_ grade: String) -> Double {
+struct GradeConverter {
+    func stringToScore(_ grade: String) -> Double {
         switch grade {
         case "A+": return Grade.aPlus.score
         case "A": return Grade.a.score
@@ -19,6 +19,20 @@ struct ScoreConverter {
         case "D+": return Grade.dPlus.score
         case "D": return Grade.d.score
         default: return Grade.f.score
+        }
+    }
+    
+    func stringToGrade(_ grade: String) -> Grade {
+        switch grade {
+        case "A+": return .aPlus
+        case "A": return .a
+        case "B+": return .bPlus
+        case "B": return .b
+        case "C+": return .cPlus
+        case "C": return .c
+        case "D+": return .dPlus
+        case "D": return .d
+        default: return .f
         }
     }
 }
