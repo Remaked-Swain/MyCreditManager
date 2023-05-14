@@ -21,18 +21,4 @@ struct GradeConverter {
         default: return Grade.f.score
         }
     }
-    
-    func stringToGrade(_ grade: String) -> Grade {
-        switch grade {
-        case "A+": return .aPlus
-        case "A": return .a
-        case "B+": return .bPlus
-        case "B": return .b
-        case "C+": return .cPlus
-        case "C": return .c
-        case "D+": return .dPlus
-        case "D": return .d
-        default: return .f
-        }
-    }
 }

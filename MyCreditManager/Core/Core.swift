@@ -108,16 +108,17 @@ extension Core {
         // 입력데이터 무결성 검사
         guard
             let input = readLine()?.components(separatedBy: " "),
-            input.count == 3
+            input.count == 3,
+            ["A+", "A", "B+", "B", "C+", "C", "D+", "D", "F"].contains(input[2])
         else { throw script.Failure.wrongInput }
         
         let name = input[0]; let subject = input[1]; let grade = input[2]
             
         if self.studentDict.keys.contains(name) {
-            self.studentDict[name] = [subject:grade]
+            self.studentDict[name]?[subject] = grade
             print(script.AdjustScore.adjustScoreSuccess(name: name, subject: subject, grade: grade).description)
         } else {
-            print(script.Failure.wrongInput.debugDescription)
+            print(script.Failure.studentNotExist(name: name))
         }
     }
     
@@ -127,7 +128,7 @@ extension Core {
         // 입력데이터 무결성 검사
         guard
             let input = readLine()?.components(separatedBy: " "),
-            input.count == 3
+            input.count == 2
         else { throw script.Failure.wrongInput }
         
         let name = input[0]; let subject = input[1]
@@ -151,11 +152,12 @@ extension Core {
         guard self.studentDict.keys.contains(name) else { throw script.Failure.studentNotExist(name: name) }
         guard let list = self.studentDict[name], list.isEmpty == false else { throw script.Failure.statusNotFound }
         
-        let totalScore: String = (list.values.map {converter.stringToScore($0)}.reduce(0, +) / Double(list.count)).asStringWith2Decimals()
-        
-        for item in list {
+        // Score Dictionary: sorted by ascending
+        for item in list.sorted(by: {converter.stringToScore($0.value) > converter.stringToScore($1.value)}) {
             print("\(item.key): \(item.value)")
         }
+        
+        let totalScore: String = (list.values.map {converter.stringToScore($0)}.reduce(0, +) / Double(list.count)).asStringWith2Decimals()
         
         print(script.StatusScore.statusScoreSuccess(totalScore: totalScore).description)
     }
